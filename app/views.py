@@ -1,13 +1,20 @@
-from flask import render_template, request, session
+from admin.admin import admin
 from app import app, db
-from app.forms import LoginForm, RegForm, OrderForm
+from flask import render_template, request
+from app.forms import OrderForm
 from app.models import Users, Posts, Menu, Orders
 
-menu = [{'name': 'Главная', 'url': '/index'}, {'name': 'Новости', 'url': '/posts'}, {'name': 'Меню', 'url': 'dishes'},
-        {'name': 'Контакты', 'url': 'index#contacts'}, {'name': 'Оформить заказ', 'url': 'do_order'}]
+
+app.register_blueprint(admin,url_prefix='/admin')
+
+
+menu = [{'name': 'Главная', 'url': '/index'}, {'name': 'Новости', 'url': '/posts'}, {'name': 'Меню', 'url': '/dishes'},
+        {'name': 'Контакты', 'url': '/index#contacts'}, {'name': 'Оформить заказ', 'url': '/do_order'}]
+
 footer = [{'url': 'https://vk.com/lolofmeistahhz', 'class': 'fa-brands fa-vk'},
           {'url': 'https://github.com/Lolofmeistahhz', 'class': 'fa-brands fa-github'},
           {'url': 'https://t.me/lolofmeistahhz', 'class': 'fa-brands fa-telegram'}]
+
 
 
 @app.route('/')
@@ -29,10 +36,7 @@ def dishes():
     page = request.args.get('page', 1, type=int)
     pagination = Menu.query.order_by(Menu.id).paginate(page=page, per_page=12)
     return render_template("dishes.html", pagination=pagination, menu=menu, footer=footer)
-    # d = Menu(name='Сырный суп',description = 'Мама мия луиджи, куда ты украл мой сыр? Марио, успокойся - только поробуй этот суп!',price = 99)
-    # db.session.add(d)
-    # db.session.commit()
-    # return render_template("dishes.html", menu=menu, footer=footer)
+
 
 
 @app.route('/post/<num>')
@@ -41,16 +45,7 @@ def post(num):
     return render_template("post.html", menu=menu, post=post)
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = Users.query.filter_by(login=form.login.data, pasword=form.password.data).first()
-        if user is not None:
-            print('lox')
-        else:
-            print('Error')
-    return render_template('login.html', title='Вход', FlaskForm=form)
+
 
 
 @app.route('/register', methods=['GET', 'POST'])

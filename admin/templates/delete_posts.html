@@ -1,0 +1,17 @@
+{% extends "admin_base.html" %}
+{% block content %}
+{{super()}}
+<div class="post-content">
+    <a href="{{url_for('.add_post')}}">Добавить</a>
+    {% for post in posts %}
+    <div class="post">
+        <b>
+            <p class="post-title">{{ post.title }}</p>
+            <p class="post-text">{{ post.text }}</p>
+            <a href="{{url_for('.delete_posts')}}/{{post.id}}">Удалить</a>
+            <a href="{{url_for('.update_posts')}}/{{post.id}}">Добавить</a>
+        </b>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

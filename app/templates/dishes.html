@@ -4,6 +4,7 @@
 <div class="menu-wrapper">
  {% for dish in pagination.items %}
         <div class="menu-dish-item">
+            <img src="{{dish.photo}}" width="200px">
             <b>
                 <p class="">{{ dish.name }}</p>
                 <p class="">{{ dish.description }}</p>

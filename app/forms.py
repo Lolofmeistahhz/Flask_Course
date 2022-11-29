@@ -2,7 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, PasswordField, SubmitField, SelectField, IntegerField
 from wtforms.validators import DataRequired
 
-from app import db
 from app.models import Menu
 
 
@@ -44,3 +43,12 @@ class OrderForm(FlaskForm):
         self.dish3.choices = [(c.id, c.name) for c in Menu.query.all()]
         self.dish4.choices = [(c.id,c.name)for c in Menu.query.all()]
         self.dish5.choices = [(c.id, c.name) for c in Menu.query.all()]
+
+class PostForm(FlaskForm):
+    title = StringField('title', validators=[DataRequired()])
+    text = StringField('text', validators=[DataRequired()])
+    submit = SubmitField('Добавить',validators=[DataRequired()])
+
+    def __init__(self, *args, **kwargs):
+        super(PostForm, self).__init__(*args, **kwargs)
+

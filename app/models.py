@@ -7,21 +7,10 @@ class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(50), nullable=False)
     pasword = db.Column(db.String(500), nullable=False)
+    usertype = db.Column(db.String(50),nullable = False)
 
     def __repr__(self):
         return f"<users {self.id}>"
-
-
-# class Profiles(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(50), nullable=False)
-#     old = db.Column(db.Integer)
-#     city = db.Column(db.String(100))
-#
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-#
-#     def __repr__(self):
-#         return f"<profiles {self.id}>"
 
 
 class Posts(db.Model):
@@ -39,12 +28,17 @@ class Menu(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(500), nullable=False)
     price = db.Column(db.Integer, nullable=False)
+    photo = db.Column(db.String(500),nullable=True)
 
     def __repr__(self):
         return f"<menu {self.id}>"
 
 class Orders(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    order_name = db.Column(db.String(100),nullable = False)
+    phone = db.Column(db.String(11),nullable = False)
+    adress = db.Column(db.String(255),nullable = False)
+    order_data = db.Column(db.DateTime,default = datetime.utcnow)
     dish1 = db.Column(db.Integer,db.ForeignKey('menu.id'),nullable=True)
     dish2 = db.Column(db.Integer, db.ForeignKey('menu.id'),nullable=True)
     dish3 = db.Column(db.Integer, db.ForeignKey('menu.id'),nullable=True)
@@ -54,10 +48,6 @@ class Orders(db.Model):
 
     def __repr__(self):
         return f"<orders {self.id}>"
-
-
-def __repr__(self):
-    return f"<menu {self.id}>"
 
 
 with app.app_context():
